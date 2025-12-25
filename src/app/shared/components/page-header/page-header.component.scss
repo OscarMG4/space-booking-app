@@ -1,0 +1,24 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page-header {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  
+  .header-content {
+    @include page-header;
+    margin-bottom: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: $spacing-sm;
+    align-items: center;
+  }
+
+  @include respond-to('md') {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

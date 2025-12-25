@@ -1,0 +1,12 @@
+<div class="page-header">
+  <div class="header-content">
+    <h1>
+      <i *ngIf="icon" [class]="'pi ' + icon"></i>
+      {{ title }}
+    </h1>
+    <p *ngIf="subtitle">{{ subtitle }}</p>
+  </div>
+  <div class="header-actions">
+    <ng-content></ng-content>
+  </div>
+</div>

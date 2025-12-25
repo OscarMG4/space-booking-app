@@ -1,0 +1,160 @@
+<div class="space-list-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1><i class="pi pi-building"></i> Espacios Disponibles</h1>
+      <p>Encuentra el espacio perfecto para tu próximo evento</p>
+    </div>
+  </div>
+
+  <div class="filters-card">
+    <h3><i class="pi pi-filter"></i> Filtros</h3>
+    <div class="grid">
+      <div class="col-12 md:col-3">
+        <label class="filter-label">
+          <i class="pi pi-search"></i>
+          Búsqueda
+        </label>
+        <input
+          pInputText
+          [(ngModel)]="filters.search"
+          (ngModelChange)="applyFilters()"
+          placeholder="Buscar por nombre..."
+          class="w-full"
+        />
+      </div>
+
+      <div class="col-12 md:col-3">
+        <label class="filter-label">
+          <i class="pi pi-tag"></i>
+          Tipo de espacio
+        </label>
+        <p-dropdown
+          [(ngModel)]="filters.type"
+          (ngModelChange)="applyFilters()"
+          [options]="spaceTypes"
+          placeholder="Todos"
+          [showClear]="true"
+          class="w-full"
+        />
+      </div>
+
+      <div class="col-12 md:col-2">
+        <label class="filter-label">
+          <i class="pi pi-users"></i>
+          Capacidad mínima
+        </label>
+        <p-inputNumber
+          [(ngModel)]="filters.min_capacity"
+          (ngModelChange)="applyFilters()"
+          [showButtons]="false"
+          [min]="1"
+          placeholder="Ej: 10"
+          class="w-full"
+          inputStyleClass="filter-input-number"
+        />
+      </div>
+
+      <div class="col-12 md:col-2">
+        <label class="filter-label">
+          <i class="pi pi-dollar"></i>
+          Precio máximo
+        </label>
+        <p-inputNumber
+          [(ngModel)]="filters.max_price"
+          (ngModelChange)="applyFilters()"
+          mode="currency"
+          currency="USD"
+          [showButtons]="false"
+          [min]="0"
+          placeholder="Ej: 500"
+          class="w-full"
+          inputStyleClass="filter-input-number"
+        />
+      </div>
+
+      <div class="col-12 md:col-2">
+        <label class="filter-label">&nbsp;</label>
+        <div class="flex align-items-center filter-checkbox">
+          <p-checkbox
+            [(ngModel)]="filters.is_available"
+            (ngModelChange)="applyFilters()"
+            [binary]="true"
+            inputId="available"
+          />
+          <label for="available" class="ml-2">Solo disponibles</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <p-progressSpinner />
+      <p>Cargando espacios...</p>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (space of spaces(); track space.id) {
+        <div class="col-12 md:col-6 lg:col-4">
+          <div class="space-card">
+            <div class="space-card-header">
+              <div class="space-status" [class.available]="space.is_available">
+                <i [class]="space.is_available ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                {{ space.is_available ? 'Disponible' : 'No disponible' }}
+              </div>
+              <h3>{{ space.name }}</h3>
+              <span class="space-type">{{ getSpaceTypeLabel(space.type) }}</span>
+            </div>
+
+            <div class="space-card-body">
+              <p class="space-description">{{ space.description }}</p>
+              
+              <div class="space-details">
+                <div class="detail-item">
+                  <i class="pi pi-map-marker"></i>
+                  <span>{{ space.location }}</span>
+                </div>
+                
+                <div class="detail-item">
+                  <i class="pi pi-users"></i>
+                  <span>{{ space.capacity }} personas</span>
+                </div>
+                
+                <div class="detail-item price">
+                  <i class="pi pi-dollar"></i>
+                  <span>${{ space.price_per_hour }}/hora</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-card-footer">
+              <p-button
+                label="Ver Detalles"
+                icon="pi pi-eye"
+                (onClick)="viewSpace(space.id)"
+                severity="secondary"
+                [outlined]="true"
+                size="small"
+              />
+              <p-button
+                label="Reservar"
+                icon="pi pi-calendar-plus"
+                (onClick)="bookSpace(space.id)"
+                [disabled]="!space.is_available"
+                size="small"
+              />
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="empty-state">
+            <i class="pi pi-inbox"></i>
+            <h3>No se encontraron espacios</h3>
+            <p>Intenta ajustar los filtros para ver más resultados</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

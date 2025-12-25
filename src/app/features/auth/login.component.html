@@ -1,0 +1,80 @@
+<div class="auth-container">
+  <div class="auth-left">
+    <div class="auth-hero">
+      <i class="pi pi-building hero-icon"></i>
+      <h1>Space Booking</h1>
+      <p>Reserva espacios de trabajo de manera fácil y rápida</p>
+      <div class="hero-features">
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Reservas en tiempo real</span>
+        </div>
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Gestión simplificada</span>
+        </div>
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Variedad de espacios</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="auth-right">
+    <div class="auth-form-container">
+      <div class="auth-header">
+        <h2>Bienvenido</h2>
+        <p>Inicia sesión para continuar</p>
+      </div>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="field">
+          <label for="email" class="field-label">Email</label>
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="tu@email.com"
+            class="w-full"
+          />
+          @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+            <small class="p-error block mt-1">El email es requerido y debe ser válido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="password" class="field-label">Contraseña</label>
+          <p-password
+            formControlName="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+            placeholder="••••••••"
+          />
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+            <small class="p-error block mt-1">La contraseña es requerida</small>
+          }
+        </div>
+
+        <p-button
+          label="Iniciar Sesión"
+          icon="pi pi-sign-in"
+          [loading]="loading"
+          [disabled]="loginForm.invalid"
+          type="submit"
+          styleClass="w-full submit-btn"
+        />
+        
+        <div class="auth-footer">
+          <span>¿No tienes cuenta?</span>
+          <a routerLink="/auth/register" class="auth-link">
+            Regístrate aquí
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

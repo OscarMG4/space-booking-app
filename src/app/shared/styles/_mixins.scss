@@ -1,0 +1,147 @@
+@use 'variables' as *;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin gradient-text {
+  background: $gradient-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Card styles
+@mixin card {
+  background: $white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-lg;
+  padding: $spacing-xl;
+}
+
+@mixin button-gradient {
+  background: $gradient-primary;
+  border: none;
+  transition: all $transition-normal;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba($primary-slate, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin input-base {
+  height: 50px;
+  font-size: $font-size-base;
+  border-radius: $border-radius-md;
+  border: 2px solid $gray-200;
+  transition: all $transition-normal;
+
+  &:hover {
+    border-color: $gray-300;
+  }
+
+  &:focus {
+    border-color: $primary-slate;
+    box-shadow: 0 0 0 3px rgba($primary-slate, 0.1);
+  }
+}
+
+// Responsive mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (max-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+}
+
+@mixin page-header {
+  margin-bottom: $spacing-lg;
+
+  h1 {
+    font-size: $font-size-5xl;
+    font-weight: $font-weight-extrabold;
+    @include gradient-text;
+    margin-bottom: $spacing-xs;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    i {
+      color: $primary-slate;
+      -webkit-text-fill-color: $primary-slate;
+      background: none;
+    }
+  }
+
+  p {
+    font-size: $font-size-lg;
+    color: $gray-500;
+  }
+}
+
+@mixin table-header-gradient {
+  background: $gradient-primary;
+  color: $white;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  padding: 1.25rem 1rem;
+  border: none;
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $gray-100;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $gradient-primary;
+    border-radius: 10px;
+
+    &:hover {
+      background: $gradient-hover;
+    }
+  }
+}

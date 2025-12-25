@@ -1,0 +1,124 @@
+@use 'variables' as *;
+
+.p-confirm-dialog {
+  .p-dialog {
+    min-width: 500px !important;
+    max-width: 650px !important;
+  }
+
+  .p-dialog-content {
+    padding: 2rem 2.5rem !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .p-dialog-header {
+    padding: 2rem 2.5rem !important;
+
+    .p-dialog-title {
+      font-size: 1.375rem !important;
+      font-weight: 600 !important;
+    }
+  }
+
+  .p-dialog-footer {
+    padding: 2rem 2.5rem !important;
+    gap: 1rem !important;
+
+    button {
+      min-width: 110px !important;
+      padding: 0.75rem 1.75rem !important;
+      font-size: 1rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .p-dialog {
+      min-width: 90vw !important;
+      margin: 1rem !important;
+    }
+  }
+}
+
+// Estilos globales para diálogos estándar (formularios, etc.)
+.p-dialog:not(.p-confirm-dialog) {
+  min-width: 600px !important;
+  max-width: 900px !important;
+
+  .p-dialog-header {
+    padding: 2.5rem 3rem !important;
+    background: linear-gradient(135deg, #f97316 0%, #dc2626 100%) !important;
+    color: white !important;
+    border-radius: 12px 12px 0 0 !important;
+
+    .p-dialog-title {
+      font-size: 1.5rem !important;
+      font-weight: 600 !important;
+    }
+
+    .p-dialog-header-icon {
+      color: white !important;
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+    }
+  }
+
+  .p-dialog-content {
+    padding: 3rem !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+
+    .field {
+      margin-bottom: 2rem !important;
+
+      label {
+        display: block !important;
+        margin-bottom: 1rem !important;
+        font-weight: 500 !important;
+        font-size: 1rem !important;
+        color: #2d3748 !important;
+      }
+
+      input,
+      textarea,
+      .p-dropdown,
+      .p-inputnumber {
+        width: 100% !important;
+        font-size: 1rem !important;
+      }
+
+      textarea {
+        min-height: 100px !important;
+      }
+    }
+  }
+
+  .p-dialog-footer {
+    padding: 2rem 3rem !important;
+    gap: 1.5rem !important;
+    border-top: 1px solid #e2e8f0 !important;
+
+    button {
+      min-width: 120px !important;
+      padding: 0.875rem 2rem !important;
+      font-size: 1rem !important;
+      font-weight: 500 !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    min-width: 95vw !important;
+    max-width: 95vw !important;
+    margin: 1rem !important;
+
+    .p-dialog-header,
+    .p-dialog-content,
+    .p-dialog-footer {
+      padding: 2rem !important;
+    }
+  }
+}

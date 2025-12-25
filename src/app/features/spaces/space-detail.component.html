@@ -1,0 +1,110 @@
+<div class="detail-container">
+  @if (loading()) {
+    <div class="loading-wrapper">
+      <p-progressSpinner />
+    </div>
+  } @else if (space()) {
+    <p-card>
+      <div class="detail-header">
+        <div class="header-info">
+          <h1 class="space-title">{{ space()!.name }}</h1>
+          <p class="space-type">{{ getSpaceTypeLabel(space()!.type) }}</p>
+        </div>
+        <p-button
+          label="Volver"
+          icon="pi pi-arrow-left"
+          [outlined]="true"
+          (onClick)="goBack()"
+        />
+      </div>
+
+      <p-divider />
+
+      <div class="grid">
+        <div class="col-12 md:col-8">
+          <div class="section">
+            <h2 class="section-title">Descripción</h2>
+            <p class="description-text">{{ space()!.description }}</p>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">Características</h2>
+            <div class="grid">
+              <div class="col-12 md:col-6">
+                <div class="feature-item">
+                  <i class="pi pi-map-marker feature-icon"></i>
+                  <div class="feature-content">
+                    <p class="feature-label">Ubicación</p>
+                    <p class="feature-value">{{ space()!.location }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 md:col-6">
+                <div class="feature-item">
+                  <i class="pi pi-users feature-icon"></i>
+                  <div class="feature-content">
+                    <p class="feature-label">Capacidad</p>
+                    <p class="feature-value">{{ space()!.capacity }} personas</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 md:col-6">
+                <div class="feature-item">
+                  <i class="pi pi-dollar feature-icon"></i>
+                  <div class="feature-content">
+                    <p class="feature-label">Precio</p>
+                    <p class="feature-value">${{ space()!.price_per_hour }} por hora</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 md:col-6">
+                <div class="feature-item">
+                  <i
+                    class="feature-icon"
+                    [class.available]="space()!.is_available"
+                    [class.unavailable]="!space()!.is_available"
+                    [class]="
+                      space()!.is_available
+                        ? 'pi pi-check-circle'
+                        : 'pi pi-times-circle'
+                    "
+                  ></i>
+                  <div class="feature-content">
+                    <p class="feature-label">Disponibilidad</p>
+                    <p class="feature-value">
+                      {{ space()!.is_available ? 'Disponible' : 'No disponible' }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4">
+          <div class="booking-card">
+            <p-card header="Reservar este espacio">
+              <div class="booking-content">
+                <p class="booking-info">
+                  Este espacio está {{ space()!.is_available ? 'disponible' : 'ocupado' }}
+                  para reservas.
+                </p>
+                <p-button
+                  label="Reservar ahora"
+                  icon="pi pi-calendar-plus"
+                  [disabled]="!space()!.is_available"
+                  (onClick)="createBooking()"
+                  [size]="'large'"
+                  styleClass="booking-btn"
+                />
+              </div>
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  }
+</div>

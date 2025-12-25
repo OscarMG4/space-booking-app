@@ -1,0 +1,10 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.card-wrapper {
+  @include card;
+
+  @include respond-to('md') {
+    padding: $spacing-md;
+  }
+}

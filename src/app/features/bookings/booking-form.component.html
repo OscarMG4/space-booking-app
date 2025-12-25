@@ -1,0 +1,136 @@
+<div class="booking-form-container">
+  <app-page-header
+    [title]="isEditMode() ? 'Actualizar Reserva' : 'Nueva Reserva'"
+    [subtitle]="isEditMode() ? 'Modifica los detalles de tu reserva' : 'Completa los detalles para crear una nueva reserva'"
+    icon="pi-calendar-plus"
+  />
+
+  <app-card-wrapper>
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <!-- Detalles del Espacio -->
+      <app-form-section title="Detalles del Espacio" icon="pi-map-marker">
+        <div class="field">
+          <label for="space_id">Espacio *</label>
+          <p-dropdown
+            formControlName="space_id"
+            [options]="spaces()"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Selecciona un espacio"
+            [loading]="loadingSpaces()"
+          />
+          @if (bookingForm.get('space_id')?.invalid && bookingForm.get('space_id')?.touched) {
+            <small class="p-error">Debes seleccionar un espacio</small>
+          }
+        </div>
+      </app-form-section>
+
+      <!-- Fecha y Horario -->
+      <app-form-section title="Fecha y Horario" icon="pi-clock">
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <div class="field">
+              <label for="start_time">Fecha y hora de inicio *</label>
+              <p-calendar
+                formControlName="start_time"
+                [showTime]="true"
+                hourFormat="24"
+                [minDate]="minDate"
+                dateFormat="dd/mm/yy"
+                placeholder="Selecciona fecha y hora"
+              />
+              @if (bookingForm.get('start_time')?.invalid && bookingForm.get('start_time')?.touched) {
+                <small class="p-error">La fecha de inicio es requerida</small>
+              }
+            </div>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <div class="field">
+              <label for="end_time">Fecha y hora de fin *</label>
+              <p-calendar
+                formControlName="end_time"
+                [showTime]="true"
+                hourFormat="24"
+                [minDate]="minDate"
+                dateFormat="dd/mm/yy"
+                placeholder="Selecciona fecha y hora"
+              />
+              @if (bookingForm.get('end_time')?.invalid && bookingForm.get('end_time')?.touched) {
+                <small class="p-error">La fecha de fin es requerida</small>
+              }
+            </div>
+          </div>
+        </div>
+      </app-form-section>
+
+      <!-- Información del Evento -->
+      <app-form-section title="Información del Evento" icon="pi-info-circle">
+        <div class="field">
+          <label for="event_title">Título del evento *</label>
+          <input
+            pInputText
+            formControlName="event_title"
+            placeholder="Ej: Reunión de equipo, Presentación de proyecto..."
+          />
+          @if (bookingForm.get('event_title')?.invalid && bookingForm.get('event_title')?.touched) {
+            <small class="p-error">El título del evento es requerido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="event_description">Descripción del evento</label>
+          <textarea
+            pInputTextarea
+            formControlName="event_description"
+            rows="3"
+            placeholder="Describe el propósito y detalles de tu evento..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label for="attendees_count">Número de asistentes *</label>
+          <p-inputNumber
+            formControlName="attendees_count"
+            [showButtons]="false"
+            [min]="1"
+          />
+          @if (bookingForm.get('attendees_count')?.invalid && bookingForm.get('attendees_count')?.touched) {
+            <small class="p-error">El número de asistentes es requerido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="special_requirements">Requisitos especiales</label>
+          <textarea
+            pInputTextarea
+            formControlName="special_requirements"
+            rows="2"
+            placeholder="Equipos adicionales, configuración especial, catering, etc."
+          ></textarea>
+        </div>
+      </app-form-section>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <p-button
+          label="Cancelar"
+          icon="pi pi-times"
+          (onClick)="cancel()"
+          [outlined]="true"
+          severity="secondary"
+          type="button"
+          size="large"
+        />
+        <p-button
+          [label]="isEditMode() ? 'Actualizar Reserva' : 'Crear Reserva'"
+          [icon]="isEditMode() ? 'pi pi-save' : 'pi pi-check'"
+          [loading]="loading"
+          [disabled]="bookingForm.invalid"
+          type="submit"
+          size="large"
+        />
+      </div>
+    </form>
+  </app-card-wrapper>
+</div>

@@ -1,0 +1,125 @@
+<div class="auth-container">
+  <div class="auth-left">
+    <div class="auth-hero">
+      <i class="pi pi-building hero-icon"></i>
+      <h1>Space Booking</h1>
+      <p>Únete a nuestra plataforma y gestiona tus espacios fácilmente</p>
+      <div class="hero-features">
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Registro rápido y seguro</span>
+        </div>
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Acceso a múltiples espacios</span>
+        </div>
+        <div class="feature">
+          <i class="pi pi-check-circle"></i>
+          <span>Gestión simplificada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="auth-right">
+    <div class="auth-form-container">
+      <div class="auth-header">
+        <h2>Crear Cuenta</h2>
+        <p>Completa el formulario para registrarte</p>
+      </div>
+      
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="field">
+          <label for="name" class="field-label">Nombre completo</label>
+          <input
+            pInputText
+            id="name"
+            formControlName="name"
+            type="text"
+            placeholder="Juan Pérez"
+            class="w-full"
+          />
+          @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+            <small class="p-error block mt-1">El nombre es requerido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="email" class="field-label">Email</label>
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="tu@email.com"
+            class="w-full"
+          />
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <small class="p-error block mt-1">El email es requerido y debe ser válido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="password" class="field-label">Contraseña</label>
+          <p-password
+            formControlName="password"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+            placeholder="••••••••"
+          >
+            <ng-template pTemplate="footer">
+              <p class="mt-2 text-sm">Mínimo 8 caracteres</p>
+            </ng-template>
+          </p-password>
+          @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+            <small class="p-error block mt-1">
+              Contraseña requerida (mínimo 8 caracteres)
+            </small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="password_confirmation" class="field-label">Confirmar Contraseña</label>
+          <p-password
+            formControlName="password_confirmation"
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+            placeholder="••••••••"
+          />
+          @if (
+            registerForm.get('password_confirmation')?.invalid &&
+            registerForm.get('password_confirmation')?.touched
+          ) {
+            <small class="p-error block mt-1">
+              Debes confirmar la contraseña
+            </small>
+          }
+          @if (registerForm.errors?.['passwordMismatch'] && registerForm.get('password_confirmation')?.touched) {
+            <small class="p-error block mt-1">
+              Las contraseñas no coinciden
+            </small>
+          }
+        </div>
+
+        <p-button
+          label="Registrarse"
+          icon="pi pi-user-plus"
+          [loading]="loading"
+          [disabled]="registerForm.invalid"
+          type="submit"
+          styleClass="w-full submit-btn"
+        />
+        
+        <div class="auth-footer">
+          <span>¿Ya tienes cuenta?</span>
+          <a routerLink="/auth/login" class="auth-link">
+            Inicia sesión aquí
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

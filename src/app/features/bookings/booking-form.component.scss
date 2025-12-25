@@ -1,0 +1,119 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.booking-form-container {
+  padding: $spacing-lg;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: $spacing-md;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    font-weight: $font-weight-semibold;
+    color: $gray-700;
+    margin-bottom: $spacing-xs;
+    font-size: $font-size-sm;
+  }
+
+  small.p-error {
+    display: block;
+    margin-top: $spacing-xs;
+    font-size: $font-size-sm;
+  }
+}
+
+.form-actions {
+  @include flex-between;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $gray-100;
+
+  @include respond-to('md') {
+    flex-direction: column;
+
+    ::ng-deep p-button {
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// PrimeNG Overrides
+:host ::ng-deep {
+  .p-dropdown,
+  .p-calendar,
+  .p-inputtext,
+  .p-inputtextarea,
+  .p-inputnumber {
+    width: 100%;
+  }
+
+  .p-inputtext,
+  .p-dropdown,
+  .p-calendar input,
+  .p-inputnumber input {
+    @include input-base;
+  }
+
+  .p-inputtextarea {
+    font-size: $font-size-base;
+    border-radius: $border-radius-md;
+    border: 2px solid $gray-200;
+    transition: all $transition-normal;
+
+    &:hover {
+      border-color: $gray-300;
+    }
+
+    &:focus {
+      border-color: $primary-slate;
+      box-shadow: 0 0 0 3px rgba($primary-slate, 0.1);
+    }
+  }
+
+  .p-button {
+    height: 46px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-md;
+    padding: 0 2rem;
+    transition: all $transition-normal;
+
+    &:not(.p-button-outlined) {
+      @include button-gradient;
+    }
+
+    &.p-button-outlined {
+      border: 2px solid $gray-200;
+      color: $gray-600;
+
+      &:hover {
+        background: $gray-50;
+        border-color: $gray-300;
+      }
+    }
+  }
+
+  .p-inputnumber {
+    input {
+      border-radius: $border-radius-md;
+    }
+  }
+}
+
+@include respond-to('md') {
+  .booking-form-container {
+    padding: $spacing-sm;
+  }
+}

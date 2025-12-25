@@ -1,0 +1,115 @@
+<div class="bookings-container">
+  <app-page-header
+    title="Mis Reservas"
+    subtitle="Gestiona todas tus reservas en un solo lugar"
+    icon="pi-calendar"
+  >
+    <p-button
+      label="Nueva Reserva"
+      icon="pi pi-plus"
+      (onClick)="createBooking()"
+      size="large"
+      styleClass="new-booking-btn"
+    />
+  </app-page-header>
+
+  <app-card-wrapper>
+    @if (loading()) {
+      <div class="loading-container">
+        <p-progressSpinner />
+        <p>Cargando reservas...</p>
+      </div>
+    } @else {
+      <p-table 
+        [value]="bookings()" 
+        [paginator]="true" 
+        [rows]="10"
+        [tableStyle]="{'min-width': '100%'}"
+        styleClass="modern-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%">Espacio</th>
+            <th style="width: 15%">Fecha Inicio</th>
+            <th style="width: 15%">Fecha Fin</th>
+            <th style="width: 20%">Título del Evento</th>
+            <th style="width: 10%">Asistentes</th>
+            <th style="width: 10%">Estado</th>
+            <th style="width: 10%">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-booking>
+          <tr>
+            <td>
+              <div class="space-info">
+                <i class="pi pi-building"></i>
+                <span>{{ booking.space?.name || 'N/A' }}</span>
+              </div>
+            </td>
+            <td>{{ booking.start_time | date : 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ booking.end_time | date : 'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <strong>{{ booking.event_title }}</strong>
+            </td>
+            <td>
+              <div class="attendees-info">
+                <i class="pi pi-users"></i>
+                <span>{{ booking.attendees_count }}</span>
+              </div>
+            </td>
+            <td>
+              <p-tag
+                [value]="getStatusLabel(booking.status)"
+                [severity]="getStatusSeverity(booking.status)"
+              />
+            </td>
+            <td>
+              <div class="action-buttons">
+                <p-button
+                  icon="pi pi-pencil"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="info"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  (onClick)="editBooking(booking.id)"
+                />
+                <p-button
+                  icon="pi pi-times"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="warning"
+                  pTooltip="Cancelar"
+                  tooltipPosition="top"
+                  (onClick)="cancelBooking(booking)"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="danger"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="deleteBooking(booking)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <i class="pi pi-inbox"></i>
+                <h3>No tienes reservas</h3>
+                <p>Crea tu primera reserva para empezar</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </app-card-wrapper>
+</div>
+
+<p-confirmDialog />
