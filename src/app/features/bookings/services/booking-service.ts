@@ -1,16 +1,18 @@
+// Este archivo ha sido reemplazado por booking.ts
+// Mantener por compatibilidad temporal pero usar booking.ts en su lugar
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, Booking, CreateBookingRequest, UpdateBookingRequest } from '../../../core/models';
+import { ApiResponse, Booking, CreateBookingRequest, UpdateBookingRequest, CancelBookingRequest, PaginatedResponse } from '../../../core/models';
 import { ApiService } from '../../../core/services';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BookingService {
+export class BookingServiceOld {
   private readonly apiService = inject(ApiService);
 
-  getMyBookings(): Observable<ApiResponse<Booking[]>> {
-    return this.apiService.get<ApiResponse<Booking[]>>('bookings');
+  getMyBookings(): Observable<ApiResponse<PaginatedResponse<Booking>>> {
+    return this.apiService.get<ApiResponse<PaginatedResponse<Booking>>>('bookings');
   }
 
   getBooking(id: number): Observable<ApiResponse<Booking>> {
@@ -25,8 +27,8 @@ export class BookingService {
     return this.apiService.put<ApiResponse<Booking>>(`bookings/${id}`, data);
   }
 
-  cancelBooking(id: number): Observable<ApiResponse> {
-    return this.apiService.post<ApiResponse>(`bookings/${id}/cancel`, {});
+  cancelBooking(id: number, data: CancelBookingRequest): Observable<ApiResponse<Booking>> {
+    return this.apiService.post<ApiResponse<Booking>>(`bookings/${id}/cancel`, data);
   }
 
   deleteBooking(id: number): Observable<ApiResponse> {

@@ -6,10 +6,16 @@ export interface Space {
   capacity: number;
   price_per_hour: number;
   location: string;
+  floor?: string;
+  amenities?: string[];
+  image_url?: string;
   is_available: boolean;
+  rules?: string;
   created_at: string;
   updated_at: string;
   deleted_at?: string;
+  reviews?: any[];
+  availabilities?: any[];
 }
 
 export type SpaceType =
@@ -27,7 +33,11 @@ export interface CreateSpaceRequest {
   capacity: number;
   price_per_hour: number;
   location: string;
-  is_available: boolean;
+  floor?: string;
+  amenities?: string[];
+  image_url?: string;
+  is_available?: boolean;
+  rules?: string;
 }
 
 export interface UpdateSpaceRequest extends CreateSpaceRequest {}

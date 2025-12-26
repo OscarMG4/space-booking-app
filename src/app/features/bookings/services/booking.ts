@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, PaginatedResponse, Booking, CreateBookingRequest, UpdateBookingRequest } from '../../../core/models';
+import { ApiResponse, PaginatedResponse, Booking, CreateBookingRequest, UpdateBookingRequest, CancelBookingRequest } from '../../../core/models';
 import { ApiService } from '../../../core/services';
 
 // Service for managing bookings
@@ -26,8 +26,8 @@ export class BookingService {
     return this.apiService.put<ApiResponse<Booking>>(`bookings/${id}`, data);
   }
 
-  cancelBooking(id: number): Observable<ApiResponse> {
-    return this.apiService.post<ApiResponse>(`bookings/${id}/cancel`, {});
+  cancelBooking(id: number, data: CancelBookingRequest): Observable<ApiResponse<Booking>> {
+    return this.apiService.post<ApiResponse<Booking>>(`bookings/${id}/cancel`, data);
   }
 
   deleteBooking(id: number): Observable<ApiResponse> {

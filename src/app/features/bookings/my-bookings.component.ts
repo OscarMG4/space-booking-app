@@ -70,11 +70,17 @@ export class MyBookingsComponent implements OnInit {
 
   cancelBooking(booking: Booking): void {
     this.confirmationService.confirm({
-      message: '¿Estás seguro de cancelar esta reserva?',
+      message: '¿Estás seguro de cancelar esta reserva? Por favor, indica la razón.',
       header: 'Confirmar Cancelación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.bookingService.cancelBooking(booking.id).subscribe({
+        const reason = prompt('Razón de cancelación:');
+        if (!reason) {
+          this.notificationService.error('Debe proporcionar una razón para cancelar');
+          return;
+        }
+
+        this.bookingService.cancelBooking(booking.id, { cancellation_reason: reason }).subscribe({
           next: (response) => {
             if (response.success) {
               this.notificationService.success('Reserva cancelada');
