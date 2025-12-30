@@ -1,0 +1,224 @@
+<div class="spaces-container">
+  <app-page-header
+    title="Administración de Espacios"
+    subtitle="Gestiona los espacios disponibles para reserva"
+    icon="pi-building"
+  >
+    <p-button
+      label="Nuevo Espacio"
+      icon="pi pi-plus"
+      (onClick)="openDialog()"
+      size="large"
+      styleClass="new-space-btn"
+    />
+  </app-page-header>
+
+  <app-card-wrapper>
+    @if (loading()) {
+      <div class="loading-container">
+        <p-progressSpinner />
+        <p>Cargando espacios...</p>
+      </div>
+    } @else {
+      <p-table 
+        [value]="spaces()" 
+        [paginator]="true" 
+        [rows]="10"
+        [tableStyle]="{'min-width': '100%'}"
+        styleClass="modern-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%">Nombre</th>
+            <th style="width: 15%">Tipo</th>
+            <th style="width: 20%">Ubicación</th>
+            <th style="width: 10%">Capacidad</th>
+            <th style="width: 12%">Precio/Hora</th>
+            <th style="width: 13%">Disponibilidad</th>
+            <th style="width: 10%">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-space>
+          <tr>
+            <td>
+              <div class="space-name">
+                <i class="pi pi-building"></i>
+                <strong>{{ space.name }}</strong>
+              </div>
+            </td>
+            <td>
+              <span class="space-type">{{ getSpaceTypeLabel(space.type) }}</span>
+            </td>
+            <td>
+              <div class="location-info">
+                <i class="pi pi-map-marker"></i>
+                <span>{{ space.location }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="capacity-info">
+                <i class="pi pi-users"></i>
+                <span>{{ space.capacity }} personas</span>
+              </div>
+            </td>
+            <td>
+              <div class="price-info">
+                <i class="pi pi-dollar"></i>
+                <span>{{ space.price_per_hour | currency }}</span>
+              </div>
+            </td>
+            <td>
+              <p-tag
+                [value]="getAvailabilityLabel(space.is_available)"
+                [severity]="getAvailabilitySeverity(space.is_available)"
+              />
+            </td>
+            <td>
+              <div class="action-buttons">
+                <p-button
+                  icon="pi pi-pencil"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="info"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  (onClick)="openDialog(space)"
+                />
+                @if (isAdmin) {
+                  <p-button
+                    icon="pi pi-trash"
+                    [text]="true"
+                    [rounded]="true"
+                    severity="danger"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (onClick)="deleteSpace(space)"
+                  />
+                }
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <i class="pi pi-building"></i>
+                <h3>No hay espacios registrados</h3>
+                <p>Crea el primer espacio para empezar</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </app-card-wrapper>
+</div>
+
+<p-dialog
+  [header]="editMode ? 'Editar Espacio' : 'Nuevo Espacio'"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [style]="{width: '650px'}"
+  styleClass="space-dialog"
+>
+  <form [formGroup]="spaceForm" (ngSubmit)="saveSpace()">
+    <div class="field mb-4">
+      <label for="name">Nombre del espacio *</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        class="w-full"
+        placeholder="Ej: Sala de Conferencias A"
+      />
+    </div>
+
+    <div class="field mb-4">
+      <label for="description">Descripción *</label>
+      <textarea
+        pInputTextarea
+        id="description"
+        formControlName="description"
+        rows="3"
+        class="w-full"
+        placeholder="Describe las características del espacio..."
+      ></textarea>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="field">
+        <label for="type">Tipo de espacio *</label>
+        <p-dropdown
+          [options]="spaceTypes"
+          formControlName="type"
+          placeholder="Selecciona tipo"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="location">Ubicación *</label>
+        <input
+          pInputText
+          id="location"
+          formControlName="location"
+          class="w-full"
+          placeholder="Ej: Edificio A, Piso 2"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="field">
+        <label for="capacity">Capacidad (personas) *</label>
+        <p-inputNumber
+          formControlName="capacity"
+          [showButtons]="true"
+          [min]="1"
+          [max]="500"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="price_per_hour">Precio por hora *</label>
+        <p-inputNumber
+          formControlName="price_per_hour"
+          mode="currency"
+          currency="USD"
+          [showButtons]="true"
+          [min]="0"
+          [step]="5"
+          class="w-full"
+        />
+      </div>
+    </div>
+
+    <div class="field-checkbox mb-4">
+      <p-checkbox
+        formControlName="is_available"
+        [binary]="true"
+        inputId="is_available"
+      />
+      <label for="is_available" class="ml-2">Espacio disponible para reservas</label>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-5">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="displayDialog = false"
+        type="button"
+      />
+      <p-button
+        label="Guardar"
+        type="submit"
+        [loading]="saving"
+        [disabled]="spaceForm.invalid"
+      />
+    </div>
+  </form>
+</p-dialog>
+
+<p-confirmDialog />

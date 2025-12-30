@@ -1,0 +1,161 @@
+<div class="reviews-container">
+  <app-page-header
+    title="Moderación de Reseñas"
+    subtitle="Gestiona y modera las reseñas de espacios"
+    icon="pi-star"
+  >
+  </app-page-header>
+
+  <app-card-wrapper>
+    @if (loading()) {
+      <div class="loading-container">
+        <p-progressSpinner />
+        <p>Cargando reseñas...</p>
+      </div>
+    } @else {
+      <p-table 
+        [value]="reviews()" 
+        [paginator]="true" 
+        [rows]="10"
+        [tableStyle]="{'min-width': '100%'}"
+        styleClass="modern-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 18%">Usuario</th>
+            <th style="width: 18%">Espacio</th>
+            <th style="width: 10%">Calificación</th>
+            <th style="width: 30%">Comentario</th>
+            <th style="width: 10%">Estado</th>
+            <th style="width: 14%">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-review>
+          <tr>
+            <td>
+              <div class="user-info">
+                <i class="pi pi-user"></i>
+                <span>{{ review.user?.name || 'N/A' }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="space-info">
+                <i class="pi pi-building"></i>
+                <span>{{ review.space?.name || 'N/A' }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="rating-display">
+                <i *ngFor="let star of [1,2,3,4,5]"
+                   [class]="star <= review.rating ? 'pi pi-star-fill' : 'pi pi-star'">
+                </i>
+              </div>
+            </td>
+            <td>
+              <div class="comment-text">
+                {{ review.comment }}
+                @if (review.admin_notes) {
+                  <small class="admin-note">
+                    <i class="pi pi-info-circle"></i>
+                    Nota admin: {{ review.admin_notes }}
+                  </small>
+                }
+              </div>
+            </td>
+            <td>
+              <p-tag
+                [value]="getStatusLabel(review)"
+                [severity]="getStatusSeverity(review)"
+              />
+            </td>
+            <td>
+              <div class="action-buttons">
+                @if (!review.is_approved && !review.is_flagged) {
+                  <p-button
+                    icon="pi pi-check"
+                    [text]="true"
+                    [rounded]="true"
+                    severity="success"
+                    pTooltip="Aprobar"
+                    tooltipPosition="top"
+                    (onClick)="approveReview(review)"
+                  />
+                }
+                @if (!review.is_flagged) {
+                  <p-button
+                    icon="pi pi-ban"
+                    [text]="true"
+                    [rounded]="true"
+                    severity="danger"
+                    pTooltip="Rechazar"
+                    tooltipPosition="top"
+                    (onClick)="openRejectDialog(review)"
+                  />
+                }
+                <p-button
+                  icon="pi pi-trash"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="danger"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="deleteReview(review)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <i class="pi pi-star"></i>
+                <h3>No hay reseñas pendientes</h3>
+                <p>Todas las reseñas han sido moderadas</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </app-card-wrapper>
+</div>
+
+<p-dialog
+  header="Rechazar Reseña"
+  [(visible)]="displayRejectDialog"
+  [modal]="true"
+  [style]="{width: '550px'}"
+  styleClass="reject-dialog"
+>
+  <div class="dialog-content">
+    <div class="field">
+      <label for="reason">Motivo del rechazo *</label>
+      <textarea
+        pInputTextarea
+        id="reason"
+        [(ngModel)]="rejectReason"
+        rows="5"
+        class="w-full"
+        placeholder="Explica por qué se rechaza esta reseña..."
+      ></textarea>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-5">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="displayRejectDialog = false"
+        type="button"
+      />
+      <p-button
+        label="Rechazar"
+        severity="danger"
+        (onClick)="rejectReview()"
+        [disabled]="!rejectReason"
+      />
+    </div>
+  </div>
+</p-dialog>
+
+<p-confirmDialog />

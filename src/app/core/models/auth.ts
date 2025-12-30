@@ -5,11 +5,11 @@ export interface User {
   phone?: string;
   department?: string;
   is_active: boolean;
-  is_admin?: boolean;
+  is_admin: boolean;
+  role: string;
   email_verified_at?: string;
   created_at: string;
   updated_at: string;
-  role?: string;
 }
 
 export interface AuthResponse {

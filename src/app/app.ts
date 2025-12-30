@@ -7,7 +7,6 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from './core/services/auth';
 
-// Main application component
 @Component({
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, RouterLink, ToastModule, ButtonModule, MenubarModule],
@@ -19,24 +18,50 @@ export class App {
   private readonly router = inject(Router);
   readonly authService = inject(AuthService);
 
-  menuItems: MenuItem[] = [
-    {
-      label: 'Espacios',
-      icon: 'pi pi-building',
-      command: () => this.router.navigate(['/spaces']),
-    },
-    {
-      label: 'Mis Reservas',
-      icon: 'pi pi-calendar',
-      command: () => this.router.navigate(['/bookings']),
-    },
-    {
-      label: 'Admin',
-      icon: 'pi pi-cog',
-      visible: this.authService.isAdmin(),
-      command: () => this.router.navigate(['/admin/spaces']),
-    },
-  ];
+  get menuItems(): MenuItem[] {
+    const user = this.authService.currentUser();
+    const isAdmin = user?.is_admin === true;
+    const isManager = user?.role === 'Gestor';
+    const canManage = isAdmin || isManager;
+
+    return [
+      {
+        label: 'Espacios',
+        icon: 'pi pi-building',
+        command: () => this.router.navigate(['/spaces']),
+      },
+      {
+        label: 'Mis Reservas',
+        icon: 'pi pi-calendar',
+        command: () => this.router.navigate(['/bookings']),
+      },
+      {
+        label: 'Gestión',
+        icon: 'pi pi-cog',
+        visible: canManage,
+        items: [
+          {
+            label: 'Espacios',
+            icon: 'pi pi-building',
+            visible: canManage,
+            command: () => this.router.navigate(['/admin/spaces']),
+          },
+          {
+            label: 'Reseñas',
+            icon: 'pi pi-star',
+            visible: canManage,
+            command: () => this.router.navigate(['/admin/reviews']),
+          },
+          {
+            label: 'Usuarios',
+            icon: 'pi pi-users',
+            visible: isAdmin,
+            command: () => this.router.navigate(['/admin/users']),
+          },
+        ],
+      },
+    ];
+  }
 
   logout(): void {
     this.authService.logout();

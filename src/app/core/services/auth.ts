@@ -49,10 +49,7 @@ export class AuthService {
   }
 
   logout(): void {
-    // Hacer logout inmediatamente en el cliente
     this.handleLogout();
-    
-    // Intentar notificar al servidor (sin bloquear ni mostrar errores)
     this.apiService.post<ApiResponse>('auth/logout', {}).subscribe({
       next: () => {},
       error: () => {}
@@ -102,6 +99,19 @@ export class AuthService {
 
   isAdmin(): boolean {
     const user = this.currentUser();
-    return user?.role === 'admin';
+    return user?.is_admin === true;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.currentUser();
+    return user?.role === role;
+  }
+
+  isManager(): boolean {
+    return this.hasRole('Gestor');
+  }
+
+  isUser(): boolean {
+    return this.hasRole('Usuario');
   }
 }

@@ -18,11 +18,30 @@
             <i class="pi pi-calendar"></i>
             <span>Mis Reservas</span>
           </a>
-          @if (authService.isAdmin()) {
-            <a routerLink="/admin/spaces" routerLinkActive="active" class="navbar-item">
-              <i class="pi pi-cog"></i>
-              <span>Admin</span>
-            </a>
+          @if (authService.isAdmin() || authService.isManager()) {
+            <div class="navbar-dropdown">
+              <button class="navbar-item dropdown-trigger">
+                <i class="pi pi-cog"></i>
+                <span>Gestión</span>
+                <i class="pi pi-chevron-down"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a routerLink="/admin/spaces" routerLinkActive="active" class="dropdown-item">
+                  <i class="pi pi-building"></i>
+                  <span>Espacios</span>
+                </a>
+                <a routerLink="/admin/reviews" routerLinkActive="active" class="dropdown-item">
+                  <i class="pi pi-star"></i>
+                  <span>Reseñas</span>
+                </a>
+                @if (authService.isAdmin()) {
+                  <a routerLink="/admin/users" routerLinkActive="active" class="dropdown-item">
+                    <i class="pi pi-users"></i>
+                    <span>Usuarios</span>
+                  </a>
+                }
+              </div>
+            </div>
           }
         </div>
 

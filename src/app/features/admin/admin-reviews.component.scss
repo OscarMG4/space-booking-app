@@ -1,0 +1,152 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.reviews-container {
+  padding: $spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  @include flex-column;
+  @include flex-center;
+  padding: 4rem;
+  gap: $spacing-sm;
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+.user-info,
+.space-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: $font-weight-semibold;
+
+  i {
+    color: $primary-slate;
+    font-size: $font-size-lg;
+  }
+}
+
+.rating-display {
+  display: flex;
+  gap: 0.25rem;
+
+  i {
+    font-size: $font-size-base;
+    
+    &.pi-star-fill {
+      color: #fbbf24;
+    }
+    
+    &.pi-star {
+      color: $gray-300;
+    }
+  }
+}
+
+.comment-text {
+  max-width: 400px;
+  line-height: 1.5;
+  font-size: $font-size-sm;
+
+  .admin-note {
+    display: block;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: #fef3c7;
+    border-radius: 4px;
+    color: #92400e;
+    font-size: $font-size-xs;
+
+    i {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  i {
+    font-size: 5rem;
+    color: $gray-300;
+    margin-bottom: $spacing-md;
+  }
+
+  h3 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-700;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+:host ::ng-deep {
+  .modern-table {
+    .p-datatable-thead > tr > th {
+      @include table-header-gradient;
+    }
+
+    .p-datatable-tbody > tr {
+      transition: all $transition-fast;
+
+      &:hover {
+        background: #fef2f2;
+      }
+
+      > td {
+        padding: 1.25rem 1rem;
+        font-size: $font-size-sm;
+        border-bottom: 1px solid $gray-100;
+      }
+    }
+  }
+
+  .p-paginator {
+    background: transparent;
+    padding: 1.5rem 1rem;
+    border: none;
+  }
+
+  .reject-dialog {
+    .p-dialog-header {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: white;
+      padding: 1.5rem;
+    }
+
+    .dialog-content {
+      padding: 2rem;
+
+      .field {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: $font-weight-semibold;
+          color: $gray-700;
+        }
+
+        textarea {
+          width: 100%;
+          resize: vertical;
+        }
+      }
+    }
+  }
+}

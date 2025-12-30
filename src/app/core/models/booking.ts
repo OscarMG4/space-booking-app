@@ -12,10 +12,10 @@ export interface Booking {
   total_price?: number;
   cancellation_reason?: string;
   cancelled_at?: string;
+  review_id?: number;
   created_at: string;
   updated_at: string;
   deleted_at?: string;
-  // Relaciones opcionales
   space?: {
     id: number;
     name: string;

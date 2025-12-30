@@ -1,0 +1,183 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.spaces-container {
+  padding: $spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  @include flex-column;
+  @include flex-center;
+  padding: 4rem;
+  gap: $spacing-sm;
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+.space-name {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: $font-weight-semibold;
+
+  i {
+    color: $primary-slate;
+    font-size: $font-size-xl;
+  }
+}
+
+.space-type {
+  font-size: $font-size-sm;
+  color: $gray-600;
+  font-weight: $font-weight-medium;
+}
+
+.location-info,
+.capacity-info,
+.price-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: $font-size-sm;
+
+  i {
+    color: $primary-slate;
+    font-size: $font-size-base;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  i {
+    font-size: 5rem;
+    color: $gray-300;
+    margin-bottom: $spacing-md;
+  }
+
+  h3 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-700;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+:host ::ng-deep {
+  .new-space-btn button {
+    height: 54px;
+    padding: 0 3rem;
+    font-size: 0.95rem;
+    font-weight: $font-weight-semibold;
+    background: linear-gradient(135deg, $primary-silver 0%, $primary-slate 100%);
+    border: none;
+    color: white;
+
+    &:hover {
+      background: $gradient-hover;
+    }
+  }
+
+  .modern-table {
+    .p-datatable-thead > tr > th {
+      @include table-header-gradient;
+    }
+
+    .p-datatable-tbody > tr {
+      transition: all $transition-fast;
+
+      &:hover {
+        background: #fef2f2;
+      }
+
+      > td {
+        padding: 1.25rem 1rem;
+        font-size: $font-size-sm;
+        border-bottom: 1px solid $gray-100;
+      }
+    }
+  }
+
+  .p-paginator {
+    background: transparent;
+    padding: 1.5rem 1rem;
+    border: none;
+  }
+
+  .space-dialog {
+    .p-dialog-header {
+      background: linear-gradient(135deg, $primary-silver 0%, $primary-slate 50%, $primary-dark-slate 100%) !important;
+      color: white !important;
+      padding: 1.5rem;
+
+      .p-dialog-title {
+        color: white !important;
+      }
+
+      .p-dialog-header-icon {
+        color: white !important;
+      }
+    }
+
+    .p-dialog-content {
+      padding: 2rem;
+    }
+
+    .field {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: $font-weight-semibold;
+        color: $gray-700;
+        font-size: $font-size-sm;
+      }
+
+      input,
+      textarea,
+      .p-dropdown,
+      .p-inputnumber {
+        width: 100%;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .field-checkbox {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      background: $gray-50;
+      border-radius: $border-radius-sm;
+    }
+
+    .grid {
+      display: grid;
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gap-4 {
+      gap: 1rem;
+    }
+  }
+}

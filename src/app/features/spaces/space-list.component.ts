@@ -70,7 +70,6 @@ export class SpaceListComponent implements OnInit {
       Object.entries(this.filters).filter(([_, value]) => value !== undefined && value !== '' && value !== null)
     );
 
-    // Convertir booleanos a 1/0 para Laravel
     if (cleanFilters['is_available'] !== undefined) {
       cleanFilters['is_available'] = cleanFilters['is_available'] ? 1 : 0;
     }
@@ -80,7 +79,7 @@ export class SpaceListComponent implements OnInit {
         this.loading.set(false);
         if (response.success && response.data) {
 
-          this.spaces.set(response.data.data);
+          this.spaces.set(response.data.data.sort((a, b) => b.id - a.id));
         }
       },
       error: () => {

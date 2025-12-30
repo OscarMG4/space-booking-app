@@ -19,98 +19,266 @@
   }
 }
 
-.space-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: $font-weight-semibold;
-
-  i {
-    color: $primary-slate;
-    font-size: $font-size-lg;
-  }
-}
-
-.attendees-info {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-
-  i {
-    color: $primary-slate;
-  }
-}
-
-.action-buttons {
-  display: flex;
-  gap: $spacing-xs;
-}
-
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
   i {
-    font-size: 5rem;
-    color: $gray-300;
-    margin-bottom: $spacing-md;
+    font-size: 4rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
   }
 
   h3 {
-    font-size: $font-size-3xl;
-    font-weight: $font-weight-bold;
-    color: $gray-700;
-    margin-bottom: $spacing-xs;
+    color: #475569;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
   }
 
   p {
-    color: $gray-500;
-    font-size: $font-size-lg;
+    color: #94a3b8;
+    margin-bottom: 2rem;
   }
 }
 
-:host ::ng-deep {
-  .new-booking-btn button {
-    height: 54px;
-    padding: 0 3rem;
-    font-size: 0.95rem;
-    font-weight: $font-weight-semibold;
-  }
-
-  .modern-table {
-    .p-datatable-thead > tr > th {
-      @include table-header-gradient;
-    }
-
-    .p-datatable-tbody > tr {
-      transition: all $transition-fast;
-
-      &:hover {
-        background: #fef2f2;
-      }
-
-      > td {
-        padding: 1.25rem 1rem;
-        font-size: $font-size-sm;
-        border-bottom: 1px solid $gray-100;
-      }
-    }
-  }
-
-  .p-paginator {
-    padding: $spacing-md $spacing-sm;
-    border: none;
-    background: transparent;
-  }
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-@include respond-to('md') {
-  .bookings-container {
-    padding: $spacing-sm;
+.booking-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(100, 116, 139, 0.15);
+    transform: translateY(-4px);
+    border-color: #94a3b8;
   }
 
-  :host ::ng-deep .card-wrapper {
-    padding: $spacing-sm;
-    overflow-x: auto;
+  .card-header {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .space-name {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+
+      i {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .card-body {
+    padding: 1.5rem;
+
+    .event-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f1f5f9;
+
+      i {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+
+      strong {
+        color: #1e293b;
+        font-size: 1.1rem;
+      }
+    }
+
+    .booking-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+
+      .detail-item {
+        display: flex;
+        gap: 0.75rem;
+
+        &.full-width {
+          grid-column: 1 / -1;
+        }
+
+        i {
+          color: #64748b;
+          font-size: 1.1rem;
+          margin-top: 0.25rem;
+        }
+
+        .detail-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .value {
+            color: #475569;
+            font-weight: 500;
+
+            &.description {
+              color: #64748b;
+              font-size: 0.9rem;
+              line-height: 1.5;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .card-footer {
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-end;
+
+      .add-review-btn {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    .review-form-inline {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+
+      .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f1f5f9;
+
+        h4 {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin: 0;
+          color: #1e293b;
+          font-size: 1.1rem;
+
+          i {
+            color: #fbbf24;
+            font-size: 1.25rem;
+          }
+        }
+      }
+
+      .rating-input {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: #475569;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        ::ng-deep .p-rating {
+          .p-rating-icon {
+            font-size: 2rem;
+            color: #cbd5e1;
+            transition: all 0.2s ease;
+
+            &.pi-star-fill {
+              color: #fbbf24;
+            }
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+
+      .comment-input {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: #475569;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        textarea {
+          width: 100%;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 0.75rem;
+          font-family: inherit;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          resize: vertical;
+
+          &:focus {
+            outline: none;
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
+          }
+
+          &::placeholder {
+            color: #cbd5e1;
+          }
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+      }
+    }
   }
 }

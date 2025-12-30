@@ -1,0 +1,151 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.users-container {
+  padding: $spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  @include flex-column;
+  @include flex-center;
+  padding: 4rem;
+  gap: $spacing-sm;
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  i {
+    color: $primary-slate;
+    font-size: $font-size-xl;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    strong {
+      font-weight: $font-weight-semibold;
+    }
+
+    small {
+      color: $gray-500;
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  i {
+    font-size: $font-size-lg;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  i {
+    font-size: 5rem;
+    color: $gray-300;
+    margin-bottom: $spacing-md;
+  }
+
+  h3 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-700;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    color: $gray-500;
+    font-size: $font-size-lg;
+  }
+}
+
+:host ::ng-deep {
+  .new-user-btn button {
+    height: 54px;
+    padding: 0 3rem;
+    font-size: 0.95rem;
+    font-weight: $font-weight-semibold;
+  }
+
+  .modern-table {
+    .p-datatable-thead > tr > th {
+      @include table-header-gradient;
+    }
+
+    .p-datatable-tbody > tr {
+      transition: all $transition-fast;
+
+      &:hover {
+        background: #fef2f2;
+      }
+
+      > td {
+        padding: 1.25rem 1rem;
+        font-size: $font-size-sm;
+        border-bottom: 1px solid $gray-100;
+      }
+    }
+  }
+
+  .p-paginator {
+    background: transparent;
+    padding: 1.5rem 1rem;
+    border: none;
+  }
+
+  .user-dialog {
+    .p-dialog-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+    }
+
+    .p-dialog-content {
+      padding: 2rem;
+    }
+
+    .field {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: $font-weight-semibold;
+        color: $gray-700;
+      }
+
+      input,
+      .p-dropdown {
+        width: 100%;
+      }
+    }
+
+    .field-checkbox {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
